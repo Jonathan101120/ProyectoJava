@@ -13,49 +13,74 @@ public class proyect1 {
     public static void main(String[] args){
         int puntos_Persona = 0;
         int puntos_IA = 0;
-        int[] lista_puntos_persona = new int[100];
-        int[] lista_puntos_IA = new int[100];
+        int[] lista_puntos_persona = new int[50];
+        int[] lista_puntos_IA = new int[50];
         int i=0,j=0;
+        boolean tag = true;
 
-        while(puntos_Persona<100 || puntos_IA <100){
+        while(puntos_Persona<20 || puntos_IA <20){
             Scanner sc = new Scanner(System.in);
-            System.out.println("Desea continuar tirando el dado [S]i / [N]o: ");
-            String continuar = sc.nextLine();
+            System.out.println("Desea continuar tirando el dado [1].Si / [2].No: ");
+            int continuar = sc.nextInt();
 
-            if(continuar.equals("Si") || continuar.equals("si")){
+            if(continuar == 1){
                 int resultado_dado = dado();
                 int puntos_per=0;
-                puntos += resultado_dado;
-                if(resultado_dado == 1){
-                    lista_puntos_persona[i] = 0;
-                    puntos_Persona -= puntos_per;
-                    continuar = "No";
-                }
-                else {
+                puntos_per += resultado_dado;
+                System.out.println("Sacaste: "+resultado_dado);
+                if (resultado_dado != 1){
                     lista_puntos_persona[i] = resultado_dado;
                     puntos_Persona += resultado_dado;
                     i++;
                 }
+                else {
+                    lista_puntos_persona[i] = 0;
+                    puntos_Persona -= puntos_per;
+                    int turno_IA = 0;
+                    int puntos_acumulados_IA = 0;
+                    while (turno_IA <= 3) {
+                        int resultado_dado_IA = dado();
+                        puntos_acumulados_IA += resultado_dado_IA;
+                        if (resultado_dado_IA == 1) {
+                            lista_puntos_IA[j] = 0;
+                            puntos_IA -= puntos_acumulados_IA;
+                            turno_IA = 4;
+                        } else
+                            lista_puntos_persona[j] = resultado_dado_IA;
+                        puntos_IA += resultado_dado_IA;
+                        j++;
+                        turno_IA++;
+                        System.out.println("La IA saco: " + resultado_dado_IA);
+                    }
+                }
             }
-            else{
-                int resulado_dado_IA = dado();
+            else if (continuar == 2){
                 int turno_IA = 0;
                 int puntos_acumulados_IA = 0;
                 while(turno_IA <= 3){
-                    if (resulado_dado_IA == 1){
-                        lista_puntos_persona[j] = 0;
-
+                    int resultado_dado_IA = dado();
+                    puntos_acumulados_IA += resultado_dado_IA;
+                    if (resultado_dado_IA == 1){
+                        lista_puntos_IA[j] = 0;
+                        puntos_IA -=puntos_acumulados_IA;
                         turno_IA=4;
                     }
                     else
-                        lista_puntos_persona[j] = resulado_dado_IA;
-
-                    puntos_IA += resulado_dado_IA;
+                        lista_puntos_persona[j] = resultado_dado_IA;
+                        puntos_IA += resultado_dado_IA;
+                        j++;
                     turno_IA++;
-                    j++;
+                    System.out.println("La IA saco: "+ resultado_dado_IA);
                 }
             }
-
+            else
+                System.out.println("Ponga un numero 1 o 2.");
+        }
+        if (puntos_Persona >= 100){
+            System.out.println("Ganaste!!!");
+        }
+        if (puntos_IA >= 100){
+            System.out.println("Te gano la IA.");
         }
     }
 }
